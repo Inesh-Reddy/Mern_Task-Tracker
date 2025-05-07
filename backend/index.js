@@ -4,6 +4,7 @@ const cors = require("cors");
 const { connectDB } = require("./db");
 const { mongo, default: mongoose } = require("mongoose");
 const Task = require("./models/task");
+const taskRouter = require("./routes/tasks");
 
 dotenv.config();
 const app = express();
@@ -22,20 +23,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/tasks", async (req, res) => {
-  const title = req.body.title;
-  const description = req.body.description;
-
-  const task = new Task({
-    title: title,
-    description: description,
-  });
-  await task.save();
-
-  res.json({
-    message: `Created`,
-  });
-});
+app.use("/api/tasks", taskRouter);
 
 const start = async () => {
   await connectDB();
