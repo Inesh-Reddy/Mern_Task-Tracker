@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+
 function App() {
   const [data, setData] = useState("");
+
   async function getName() {
     try {
       const response = await axios.get("http://localhost:3000/");
@@ -11,14 +13,14 @@ function App() {
       console.error(error);
     }
   }
-
   useEffect(() => {
     getName();
   }, []);
+
   return (
     <>
       <h1>Task Tracker</h1>
-      <h2>{data}</h2>
+      <h2>{data.message}</h2>
     </>
   );
 }
