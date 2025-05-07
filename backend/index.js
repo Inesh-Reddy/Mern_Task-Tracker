@@ -1,6 +1,9 @@
 const express = require("express");
-require("dotenv").config();
+const dotenv = require("dotenv");
 const cors = require("cors");
+const { connectDB } = require("./db");
+
+dotenv.config();
 const app = express();
 
 app.use(
@@ -9,14 +12,19 @@ app.use(
     origin: "http://localhost:5173",
   })
 );
-
-const PORT = process.env.PORT;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json(`Task Tracker API`);
+  res.json({
+    message: `Task Tracker API`,
+  });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port : ${PORT}`);
-});
+const start = async () => {
+  await connectDB();
+  app.listen(process.env.PORT, () => {
+    console.log(`Server is listening on port : ${process.env.PORT}`);
+  });
+};
+
+start();
