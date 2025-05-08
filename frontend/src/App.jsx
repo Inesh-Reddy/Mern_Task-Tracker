@@ -1,5 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import TaskForm from "./components/TaskForm";
+import TaskItem from "./components/TaskItem";
+import TaskList from "./components/TaskList";
+import { Box, Typography } from "@mui/material";
+import { RecoilRoot } from "recoil";
 
 function App() {
   const [data, setData] = useState("");
@@ -19,8 +24,16 @@ function App() {
 
   return (
     <>
-      <h1>Task Tracker</h1>
-      <h2>{data.message}</h2>
+      <Box sx={{ mt: 4, textAlign: "center" }}>
+        <Typography variant="h4">Task Tracker</Typography>
+        <h2>{data.message}</h2>
+        <RecoilRoot>
+          <Box sx={{ margin: 2, padding: 2 }}>
+            <TaskForm />
+            <TaskList />
+          </Box>
+        </RecoilRoot>
+      </Box>
     </>
   );
 }
