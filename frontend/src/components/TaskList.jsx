@@ -1,31 +1,28 @@
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import { List } from "@mui/material";
 import TaskItem from "./TaskItem";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import { fetching } from "../taskService";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { taskAtom } from "../recoil/atom/taskAtom";
 
 const TaskList = () => {
-  const [data, setData] = useState([]);
-
-  async function getName() {
-    try {
-      const response = await axios.get("http://localhost:3000/api/tasks/");
-      setData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const setTasks = useSetRecoilState(taskAtom);
+  const tasks = useRecoilValue(taskAtom);
 
   useEffect(() => {
-    getName();
+    const finalResponse = async () => {
+      const response = await fetching();
+      console.log(response);
+      setTasks(...tasks, response);
+    };
+    finalResponse();
   }, []);
 
   return (
     <Container fixed maxWidth="sm">
       <List>
-        {data.map((task) => {
+        {tasks.map((task) => {
           return <TaskItem key={task._id} task={task} />;
         })}
       </List>
