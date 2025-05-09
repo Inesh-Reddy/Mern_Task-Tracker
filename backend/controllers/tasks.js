@@ -30,7 +30,7 @@ const createNewTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  const allowedFields = ["name", "description", "completed"];
+  const allowedFields = ["title", "description", "completed"];
   const updates = {};
 
   for (const key of allowedFields) {
