@@ -22,6 +22,8 @@ const TaskForm = () => {
     tasks().then(async () => {
       const updatedData = await fetching();
       setTasks(updatedData);
+      titleRef.current.value = "";
+      descriptionRef.current.value = "";
     });
   };
 
@@ -31,7 +33,15 @@ const TaskForm = () => {
         <Input inputRef={titleRef} placeholder="Title">
           Title
         </Input>
-        <Input inputRef={descriptionRef} placeholder="Description">
+        <Input
+          inputRef={descriptionRef}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              taskHandler();
+            }
+          }}
+          placeholder="Description"
+        >
           Description
         </Input>
         <Button onClick={taskHandler} variant="contained" color="primary">
